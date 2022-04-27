@@ -44,6 +44,23 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
               ref.watch(countProvider.state).state.toString(),
               style: Theme.of(context).textTheme.headline4,
             ),
+            Row(
+              children: [
+                FloatingActionButton(
+                  onPressed: () => ref.read(countProvider.state).state++,
+                  tooltip: 'Increment',
+                  child: const Icon(Icons.add),
+                ),
+                FloatingActionButton(
+                  onPressed: () => ref.read(countProvider.state).state++,
+                  tooltip: 'Increment',
+                  child: const Icon(Icons.add),
+                )
+              ],
+            ),
+            Row(
+              children: const [],
+            )
           ],
         ),
       ),
