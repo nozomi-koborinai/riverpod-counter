@@ -1,4 +1,5 @@
 import 'package:counter_riverpod/provider.dart';
+import 'package:counter_riverpod/view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -30,6 +31,14 @@ class MyHomePage extends ConsumerStatefulWidget {
 }
 
 class _MyHomePageState extends ConsumerState<MyHomePage> {
+  final ViewModel _viewModel = ViewModel();
+
+  @override
+  void initState() {
+    super.initState();
+    _viewModel.setRef(ref);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,33 +51,42 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
           children: <Widget>[
             Text(ref.watch(messageProvider)),
             Text(
-              ref.watch(countProvider.state).state.toString(),
+              _viewModel.count,
               style: Theme.of(context).textTheme.headline4,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
+                //＋ボタン
                 FloatingActionButton(
-                  onPressed: () => ref.read(countProvider.state).state++,
-                  tooltip: 'Increment',
+                  onPressed: () {
+                    _viewModel.onIncrease();
+                  },
                   child: const Icon(CupertinoIcons.plus),
                 ),
+
+                //−ボタン
                 FloatingActionButton(
-                  onPressed: () => ref.read(countProvider.state).state++,
-                  tooltip: 'Increment',
+                  onPressed: () {
+                    _viewModel.onDecrease();
+                  },
                   child: const Icon(CupertinoIcons.minus),
                 )
               ],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: const [Text('1'), Text('2')],
+              children: [Text(_viewModel.countUp), Text(_viewModel.countDown)],
             )
           ],
         ),
       ),
+
+      //リセットボタン
       floatingActionButton: FloatingActionButton(
-        onPressed: () => ref.read(countProvider.state).state++,
+        onPressed: () {
+          _viewModel.onReset();
+        },
         child: const Icon(Icons.refresh),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
