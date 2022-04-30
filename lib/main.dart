@@ -18,24 +18,26 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(),
+      home: MyHomePage(ViewModel()),
     );
   }
 }
 
 class MyHomePage extends ConsumerStatefulWidget {
-  const MyHomePage({Key? key}) : super(key: key);
+  ViewModel viewModel;
+  MyHomePage(this.viewModel, {Key? key}) : super(key: key);
 
   @override
   ConsumerState<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends ConsumerState<MyHomePage> {
-  final ViewModel _viewModel = ViewModel();
+  late ViewModel _viewModel;
 
   @override
   void initState() {
     super.initState();
+    _viewModel = widget.viewModel;
     _viewModel.setRef(ref);
   }
 
